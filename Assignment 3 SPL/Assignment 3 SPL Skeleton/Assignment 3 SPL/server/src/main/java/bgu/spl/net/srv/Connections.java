@@ -9,4 +9,8 @@ public interface Connections<T> {
     void send(String channel, T msg);
 
     void disconnect(int connectionId);
+
+    // Added by us
+    int add(ConnectionHandler<T> connectionHandler);
+    // Adding end
 }

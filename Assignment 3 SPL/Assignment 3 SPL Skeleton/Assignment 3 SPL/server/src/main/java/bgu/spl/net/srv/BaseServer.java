@@ -2,6 +2,8 @@ package bgu.spl.net.srv;
 
 import bgu.spl.net.api.MessageEncoderDecoder;
 import bgu.spl.net.api.MessagingProtocol;
+import bgu.spl.net.api.Startable;
+import bgu.spl.net.impl.stomp.ConnectionsImpl;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,6 +14,7 @@ public abstract class BaseServer<T> implements Server<T> {
     private final int port;
     private final Supplier<MessagingProtocol<T>> protocolFactory;
     private final Supplier<MessageEncoderDecoder<T>> encdecFactory;
+    private final Connections<T> connections = new ConnectionsImpl<>();
     private ServerSocket sock;
 
     public BaseServer(
@@ -37,10 +40,17 @@ public abstract class BaseServer<T> implements Server<T> {
 
                 Socket clientSock = serverSock.accept();
 
+                MessagingProtocol<T> protocol = protocolFactory.get();
+                MessageEncoderDecoder<T> encdec = encdecFactory.get();
                 BlockingConnectionHandler<T> handler = new BlockingConnectionHandler<>(
                         clientSock,
-                        encdecFactory.get(),
-                        protocolFactory.get());
+                        encdec,
+                        protocol);
+
+                int id = connections.add(handler);
+                if (protocol instanceof Startable) {
+                    ((Startable<T>) protocol).start(id, connections);
+                }
 
                 execute(handler);
             }

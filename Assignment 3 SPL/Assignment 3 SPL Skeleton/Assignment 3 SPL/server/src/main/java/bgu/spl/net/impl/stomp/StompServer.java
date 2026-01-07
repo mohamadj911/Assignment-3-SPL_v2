@@ -14,7 +14,7 @@ public class StompServer {
         if(args[1].equals("tpc")){
         Server.threadPerClient(
             Integer.parseInt(args[0]), // port
-                () -> new StompProtocol(), // protocol factory
+                StompProtocolAdapter::new, // protocol factory
                 StompMessageEncoderDecoder::new // message encoder decoder factory ///////
         ).serve();
 
@@ -22,7 +22,7 @@ public class StompServer {
         Server.reactor(
         Runtime.getRuntime().availableProcessors(),
         Integer.parseInt(args[0]), //port
-        () -> new StompProtocol(), //protocol factory
+        StompProtocolAdapter::new, //protocol factory
         StompMessageEncoderDecoder::new //message encoder decoder factory
         ).serve();
         }else{
