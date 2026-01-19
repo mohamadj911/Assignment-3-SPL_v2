@@ -247,7 +247,7 @@ string StompProtocol::checkIfSubscribe(string channel)
 	for (unsigned int i = 0; i < ChannelsSubscHashMap.size(); i++)
 	{
 		if (ChannelsSubscHashMap.at(i) == channel)
-		{
+		{ // the "Germany_Japan" should be updated and changes according to json file
 			return "OK";
 		}
 	}
