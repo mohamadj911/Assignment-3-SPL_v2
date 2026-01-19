@@ -1,11 +1,10 @@
 #pragma once
-#pragma once
 #include <stdlib.h>
 #include <string>
 #include <iostream>
 #include <map>
 #include "ConnectionHandler.h"
-#include "../include/event.h"
+#include "event.h"
 #include <vector>
 using std::cerr;
 using std::cin;
@@ -14,7 +13,6 @@ using std::endl;
 using std::string;
 using std::map;
 
-#include "../include/ConnectionHandler.h"
 
 // TODO: implement the STOMP protocol
 class StompProtocol

@@ -196,7 +196,7 @@ std::vector<string> StompProtocol::ReportEvents(std::vector<Event> events)
 	{
 		Event event = events.at(i);
 		string Channel = event.get_team_a_name() + '_' + event.get_team_b_name();
-		if(checkIfSubscribed(Channel)=="NOT_OK"){
+		if(checkIfSubscribe(Channel)=="NOT_OK"){
 			FramesVec.push_back("ERR0R\n");
 			break;
 		}
@@ -242,7 +242,7 @@ void StompProtocol::SummaryPrepare(string Respond)
 	message = "SEND\ndestination:/" + des + "\n\n" + "user:" + user + '\n' + message;
 	MapForSummary[user][des].push_back(message);
 }
-string StompProtocol::checkIfSubscribed(string channel)
+string StompProtocol::checkIfSubscribe(string channel)
 {
 	for (unsigned int i = 0; i < ChannelsSubscHashMap.size(); i++)
 	{
